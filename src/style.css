@@ -1,0 +1,26 @@
+body {
+  overflow: hidden;
+}
+
+.container {
+  width: 100dvw;
+  height: 100dvh;
+  background-color: aliceblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drop-down-bttn {
+  padding: 15px 30px;
+  position: relative;
+}
+.drop-down-bttn:hover {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+
