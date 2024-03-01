@@ -11,16 +11,6 @@ body {
   align-items: center;
 }
 
-.drop-down-bttn {
-  padding: 15px 30px;
-  position: relative;
+.container > * {
+  margin: 80px;
 }
-.drop-down-bttn:hover {
-  cursor: pointer;
-}
-
-.hidden {
-  display: none;
-}
-
-

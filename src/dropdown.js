@@ -1,12 +1,42 @@
 const cssStyle = function addCssStyle(element, styles) {
-  Object.assign(element.style, styles);
+  if (element instanceof NodeList) {
+    element.forEach((el) => Object.assign(el.style, styles));
+  } else {
+    Object.assign(element.style, styles);
+  }
 };
 
-const dropDown = function createDropDown(
-  wrap,
-  dropdownItems,
-  options = { dropDownBackGroundColor: "white" }
-) {
+const find = function findDataToggler(func) {
+  document
+    .querySelectorAll("[data-toggler='true']")
+    .forEach((toggle) => toggle.addEventListener("click", func));
+};
+
+const set = function setDisplayProperty(el) {
+  if (window.getComputedStyle(el.nextElementSibling).display === "none") {
+    el.nextElementSibling.style.setProperty("display", "block");
+  } else {
+    el.nextElementSibling.style.setProperty("display", "none");
+  }
+};
+
+const check = function checkForDarkMode(el) {
+  if (el.nextElementSibling.classList.contains("dropdown-items-darkmode")) {
+    return true;
+  }
+  return false;
+};
+
+const dropDown = function createDropDown() {
+  const wrap = document.querySelectorAll(".dropdown-container");
+  const dropdownItems = document.querySelectorAll(".dropdown-items");
+
+  find(dropDown);
+  let darkMode;
+  if (this) {
+    darkMode = check(this);
+  }
+
   cssStyle(wrap, {
     position: "relative",
   });
@@ -18,21 +48,21 @@ const dropDown = function createDropDown(
     borderRadius: "3px",
     margin: "2px 0px 0px 0px",
     listStyle: "none",
+    display: `${!this ? "none" : set(this)}`,
     whiteSpace: "nowrap",
-    backgroundColor: `${options.dropDownBackGroundColor === "dark" ? "#28282B" : "white"}`,
+    backgroundColor: `${darkMode ? "#28282B" : "white"}`,
   });
 
-  const dropdownChildrenArr = Array.from(dropdownItems.children);
-
-  dropdownChildrenArr.forEach((item) => {
-    cssStyle(item, { padding: "6px 10px" });
-    cssStyle(item.firstElementChild, {
-      textDecoration: "none",
-      color: `${options.dropDownBackGroundColor === "dark" ? "white" : "#28282B"}`,
-    });
+  dropdownItems.forEach((item) => {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < item.children.length; i++) {
+      cssStyle(item.children[i], { padding: "6px 10px" });
+      cssStyle(item.children[i].firstElementChild, {
+        textDecoration: "none",
+        color: `${darkMode ? "white" : "#28282B"}`,
+      });
+    }
   });
-
-  dropdownItems.classList.toggle("hidden");
 };
 
 export default dropDown;
